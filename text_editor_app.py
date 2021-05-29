@@ -1,4 +1,19 @@
 import tkinter as tk
+from tkinter.filedialog import askopenfilename
+
+
+def open_file():
+    """Open a file for editing."""
+    filepath = askopenfilename(
+        filetypes=[("Text Files", "*.txt"), ("All Files", "*.*")]
+    )
+    if not filepath:
+        return
+    txt_edit.delete("1.0", tk.END)
+    with open(filepath, "r") as input_file:
+        text = input_file.read()
+        txt_edit.insert(tk.END, text)
+    window.title(f"Simple Text Editor - {filepath}")
 
 window = tk.Tk()
 window.title("Simple Text Editor")
@@ -9,7 +24,7 @@ window.columnconfigure(1, minsize=800, weight=1)
 # Create required Widgets
 txt_edit = tk.Text(window)
 fr_buttons = tk.Frame(window)
-btn_open = tk.Button(fr_buttons, text="Open")
+btn_open = tk.Button(fr_buttons, text="Open", command=open_file)
 btn_save = tk.Button(fr_buttons, text="Save As...")
 
 # application layout
